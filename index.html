@@ -29,21 +29,49 @@
     </nav>
 
     <div class="container">
-        <div class="row">
-            <div class="card-container" id="cardContainer">
-                <!--<div class="card">
-                    <div class="card-body">
-                        <div class="data-pkm">
-                            <p>N°005 Charmeleon</p>
-                            <span class="type-pokemon fire">Fuego</span>
-                        </div>
-                        <img class="sprite-pkm" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png" alt="">
-                    </div>
-                </div>-->
+        <div class="row col-md-12 mt-2 horizontal-center">
+            <div class="col-md-2">
+                <select class="form-select" id="list_region">
+                </select>
             </div>
+            <div class="col-md-6">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Buscar por nombre" id="txt_search">
+                    <button class="btn btn-outline-secondary" type="button" onclick="btnSearchPokemon();"><i
+                            class="fa-solid fa-magnifying-glass"></i> Buscar</button>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <button type="button" class="btn btn-primary" onclick="btnRandomPokemon();"><i
+                        class="fa-solid fa-shuffle"></i> Sorpréndeme</button>
+            </div>
+        </div>
+        <div class="card-container" id="cardContainer">
+            <!--<div class="card">
+                <div class="card-body">
+                    <div class="data-pkm">
+                        <p>N°005 Charmeleon</p>
+                        <span class="type-pokemon fire">Fuego</span>
+                    </div>
+                    <img class="sprite-pkm" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png" alt="">
+                </div>
+            </div>-->
+        </div>
+        <div class="col-md-12 align-items-center mt-3">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <!--<li id="previous" class="page-item" onclick="btnPrevious();">
+                        <a class="page-link">Anterior</a>
+                    </li>
+                    <li id="next" class="page-item" onclick="btnNext();">
+                        <a class="page-link">Siguente</a>
+                    </li>-->
+                </ul>
+            </nav>
         </div>
     </div>
 
+    <!--
     <div class="container">
         <div class="row col-md-12 mt-2 horizontal-center">
             <div class="col-md-2">
@@ -83,7 +111,7 @@
             </nav>
         </div>
     </div>
-
+    -->
     <!--<div class="spinner-border" role="status">
         <span class="sr-only">Loading...</span>
     </div>-->
@@ -112,8 +140,7 @@
                                 <div class="pokedex-stats">
                                     <div class="div-stat">
                                         <p class="stat-name">HP</p>
-                                        <div class="progress" role="progressbar" aria-label="Stat HP" aria-valuenow="0"
-                                            aria-valuemin="0" aria-valuemax="255">
+                                        <div class="progress" role="progressbar" aria-label="Stat HP" aria-valuenow="0" aria-valuemin="0" aria-valuemax="255">
                                             <div class="progress-bar stat-hp">
                                                 <p class="stat-number stat-n1"></p>
                                             </div>
@@ -121,8 +148,7 @@
                                     </div>
                                     <div class="div-stat">
                                         <p class="stat-name">ATK</p>
-                                        <div class="progress" role="progressbar" aria-label="Stat Attack"
-                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="255">
+                                        <div class="progress" role="progressbar" aria-label="Stat Attack" aria-valuenow="25" aria-valuemin="0" aria-valuemax="255">
                                             <div class="progress-bar stat-attack">
                                                 <p class="stat-number stat-n2"></p>
                                             </div>
@@ -130,8 +156,7 @@
                                     </div>
                                     <div class="div-stat">
                                         <p class="stat-name">DEF</p>
-                                        <div class="progress" role="progressbar" aria-label="Stat Defense"
-                                            aria-valuenow="50" aria-valuemin="0" aria-valuemax="255">
+                                        <div class="progress" role="progressbar" aria-label="Stat Defense" aria-valuenow="50" aria-valuemin="0" aria-valuemax="255">
                                             <div class="progress-bar stat-defense">
                                                 <p class="stat-number stat-n3"></p>
                                             </div>
@@ -139,8 +164,7 @@
                                     </div>
                                     <div class="div-stat">
                                         <p class="stat-name">SP.ATK</p>
-                                        <div class="progress" role="progressbar" aria-label="Stat Special Attack"
-                                            aria-valuenow="75" aria-valuemin="0" aria-valuemax="255">
+                                        <div class="progress" role="progressbar" aria-label="Stat Special Attack" aria-valuenow="75" aria-valuemin="0" aria-valuemax="255">
                                             <div class="progress-bar stat-special-attack">
                                                 <p class="stat-number stat-n4"></p>
                                             </div>
@@ -148,8 +172,7 @@
                                     </div>
                                     <div class="div-stat">
                                         <p class="stat-name">SP.DEF</p>
-                                        <div class="progress" role="progressbar" aria-label="Stat Special Defense"
-                                            aria-valuenow="100" aria-valuemin="0" aria-valuemax="255">
+                                        <div class="progress" role="progressbar" aria-label="Stat Special Defense" aria-valuenow="100" aria-valuemin="0" aria-valuemax="255">
                                             <div class="progress-bar stat-special-defense">
                                                 <p class="stat-number stat-n5"></p>
                                             </div>
@@ -157,8 +180,7 @@
                                     </div>
                                     <div class="div-stat">
                                         <p class="stat-name">SPEED</p>
-                                        <div class="progress" role="progressbar" aria-label="Stat Speed"
-                                            aria-valuenow="100" aria-valuemin="0" aria-valuemax="255">
+                                        <div class="progress" role="progressbar" aria-label="Stat Speed" aria-valuenow="100" aria-valuemin="0" aria-valuemax="255">
                                             <div class="progress-bar stat-speed">
                                                 <p class="stat-number stat-n6"></p>
                                             </div>
@@ -194,6 +216,7 @@
     <script src="lang/es/types.js"></script>
     <script src="js/regions.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/pagination.js"></script>
 </body>
 
 </html>

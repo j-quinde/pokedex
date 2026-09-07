@@ -18,21 +18,88 @@ const fillZeros = (number) => {
     return newNumber;
 }
 
-const startId = 1;
-const endId = 151;
-const offset = 1;
-const limit = 9;
+const removeAllChildNodes = (parent) => {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+}
 
-const fetchPokemon = () => {
+let speciesRegionCompleta = [];
+let paginaActual = 1;
+const limitePorPagina = 12;
+
+document.addEventListener('DOMContentLoaded', () => {
+    listRegion();
+
+    /*document.querySelector('#btn-previous').addEventListener('click', () => cambiarPagina('previous'));
+    document.querySelector('#btn-next').addEventListener('click', () => cambiarPagina('next'));
+*/
+    document.querySelector('#list_region').addEventListener('change', () => changeRegion());
+});
+
+const listRegion = async () => {
+    const selectRegion = document.querySelector('#list_region');
+    const regions = await getRegions();
+
+    if (!regions) return;
+
+    const regionsList = regions.map((region) => {
+        return `<option value="${region.id}">${upperFirstLetter(region.name)}</option>`;
+    }).join(' ');
+
+    selectRegion.innerHTML = regionsList;
+}
+
+const changeRegion = async () => {
+    const idRegion = document.querySelector('#list_region').value;
+    const regions = await getRegions();
+    const regionEncontrada = regions.find(region => region.id === parseInt(idRegion));
+    const generationUrl = regionEncontrada ? regionEncontrada.generation : null;
+
+    paginaActual = 1;
+    const div_list = document.querySelector('#cardContainer');
+    removeAllChildNodes(div_list);
+
+    if(generationUrl){
+        await obtenerEspeciesRegion(generationUrl);
+    }
+}
+
+const obtenerEspeciesRegion = async (url) => {
+    const response = await fetch(url);
+    const jsonUrl = await response.json();
+
+    const especiesConId = jsonUrl.pokemon_species.map(specie => {
+        const partes = new URL(specie.url).pathname.split('/').filter(Boolean);
+        const id = parseInt(partes[partes.length - 1]);
+        return { name: specie.name, url: specie.url, id: id };
+    });
+
+    speciesRegionCompleta = especiesConId.sort((a, b) => a.id - b.id);
+
+    fetchPokemonPaginado();
+}
+
+const fetchPokemonPaginado = async () => {
+
+    const div_list = document.querySelector('#cardContainer');
+    removeAllChildNodes(div_list);
+
+    const indiceInicio = (paginaActual -1) * limitePorPagina;
+    const indiceFin = indiceInicio + limitePorPagina;
+    const paginaEspecies = speciesRegionCompleta.slice(indiceInicio, indiceFin);
+
     const arrPokemons = [];
-    for (let i = startId; i <= 12; i++) {
-        const urlPokemon = `https://pokeapi.co/api/v2/pokemon/${i}`;
+    
+    for (let i = 0; i < paginaEspecies.length; i++) {
+        const idPokemon = paginaEspecies[i].id;
+        const urlPokemon = `https://pokeapi.co/api/v2/pokemon/${idPokemon}`;
         const jsonPokemon = fetch(urlPokemon).then((result) => result.json());
-        arrPokemons.push(jsonPokemon);
+        arrPokemons.push(jsonPokemon);  
     }
 
     Promise.all(arrPokemons).then((result) => {
-        dataPokemon = result.map((res) => ({
+        const dataPokemon = result.map((res) => ({
             id: res.id,
             name: res.name,
             type: res.types,
@@ -40,12 +107,11 @@ const fetchPokemon = () => {
             img2: res.sprites.other.home.front_default,
             img3: res.sprites.back_default,
             stats: res.stats
-        }))
-        cardPokemon(dataPokemon)
-    })
+        }));
+        cardPokemon(dataPokemon);
+        actualizarBotonesPaginacion();
+    });
 }
-
-const myModal = new bootstrap.Modal(document.getElementById("myModal"), {});
 
 const cardPokemon = (pkm) => {
 
@@ -98,7 +164,7 @@ const cardPokemon = (pkm) => {
     });
 }
 
-fetchPokemon()
+const myModal = new bootstrap.Modal(document.getElementById("myModal"), {});
 
 const openModal = document.getElementById("myModal");
 if (openModal) {
@@ -120,12 +186,6 @@ if (openModal) {
         let stat_4 = document.querySelector(".stat-special-defense");
         let stat_5 = document.querySelector(".stat-speed");
 
-        /*let stat_pokemon = data.stats.map((stat, i) => {
-            let stat_order = 'stat_' + i;
-            return `${stat_order}`.style = 'width: ' + parseInt(stat.base_stat) + '%';
-        })
-        console.log(stat_pokemon)*/
-
         pName.textContent = upperFirstLetter(data.name);
         pNumber.textContent = 'N°' + fillZeros(data.id);
         if (data.img1) {
@@ -143,10 +203,9 @@ if (openModal) {
 
         data.stats.forEach((stat,i) => {
             let p_numberStat = document.querySelector("."+`stat-n${i+1}`);
-            p_numberStat.textContent = stat.base_stat+'/255';
-            let percent = ((stat.base_stat * 100) / 255).toFixed(2);
+            p_numberStat.textContent = stat.base_stat+' / 255';
             let stat_order = eval(`stat_${i}`);
-            stat_order.style.width = percent + '%';
+            stat_order.style.width = stat.base_stat + 'px';
         })
     })
 }
@@ -451,4 +510,6 @@ const changeRegion = () => {
     removeAllChildNodes(div_list);
     offset = first;
     fetchPokemonKanto(offset,limit);
-}*/
+}
+*/
+
