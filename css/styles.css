@@ -70,10 +70,6 @@
     background-color: #D685AD;
 }
 
-.modal-header{
-    height: 2rem;
-}
-
 .navbar {
     position: fixed;
     overflow: hidden;
@@ -154,15 +150,32 @@
     color: white;
 }
 
-.pokedex-container {
-    background-color: #981818;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+#myModal .modal-dialog {
+    width: max-content;
+    max-width: 95vw;
+    margin: 1.75rem auto;
 }
 
-.pokedex-det1{
+#myModal .modal-content {
+    width: 100%;
+}
+
+#myModal .modal-header {
+    height: 2rem;
+}
+
+.pokedex-container {
+    display: inline-grid;
+    /* Activa Grid y encoge al padre al tamaño de sus hijos */
+    grid-template-columns: auto auto;
+    /* Las columnas se adaptan al tamaño del contenido de los hijos */
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    background-color: #981818;
+}
+
+.pokedex-det1 {
     display: flex;
     flex-direction: column;
     margin: 2px 2px 2px 2px;
@@ -171,7 +184,7 @@
     border-radius: 10px;
 }
 
-.pokedex-nameContainer{
+.pokedex-nameContainer {
     display: flex;
     justify-content: space-around;
 }
@@ -207,52 +220,39 @@
     border: 1px solid #000000;
 }
 
-.pokedex-types{
+.pokedex-types {
     text-align: center;
     margin: 10px 10px 10px 10px;
 }
 
-.pokedex-types > span{
+.pokedex-types>span {
     font-size: 15px;
 }
 
-.div-stat{
+.div-stat {
     display: flex;
-    justify-content: space-between; 
-    align-items: center;           
-    width: 100%;                   
-    margin-bottom: 5px; 
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 5px;
 }
 
-.stat-name{
+.stat-name {
     color: #ffffff;
     margin: 0 0 0 5px;
 }
 
-.progress{
+.progress {
     margin: 5px 10px 5px 10px;
     height: 2.5vh;
     width: 255px;
-    flex-shrink: 0;  
+    flex-shrink: 0;
 }
 
-.stat-number{
+.stat-number {
     margin: 0;
     font-size: 11px;
 }
-
-
-
-/********************************/
-/*.card {
-    text-align: center;
-    width: 15rem;
-    height: 17rem;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    transition: transform .2s;
-}*/
-
-
 
 .spinner-border {
     height: 8rem;
@@ -266,12 +266,8 @@
     object-fit: contain;
 }
 
-
-
-
 .li-pokemon {
     flex-direction: row !important;
-    /* You can also add some margins here to make it look prettier */
 }
 
 .page-item {
