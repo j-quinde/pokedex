@@ -173,6 +173,7 @@
     justify-content: center;
     align-items: center;
     background-color: #981818;
+    border-radius: 10px;
 }
 
 .pokedex-det1 {
@@ -235,6 +236,7 @@
     align-items: center;
     width: 100%;
     margin-bottom: 5px;
+    
 }
 
 .stat-name {
@@ -243,6 +245,7 @@
 }
 
 .progress {
+    position: relative;
     margin: 5px 10px 5px 10px;
     height: 2.5vh;
     width: 255px;
@@ -250,8 +253,15 @@
 }
 
 .stat-number {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     margin: 0;
-    font-size: 11px;
+    font-size: 12px;
+    z-index: 10;
+    white-space: nowrap;
+    color: #000000;
 }
 
 .spinner-border {
